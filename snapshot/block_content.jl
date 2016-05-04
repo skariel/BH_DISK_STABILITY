@@ -20,6 +20,17 @@ function ReadBlockPos(filename)
     end
 end
 
+function AppendBlockPos(filename, bp::BlockPos)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "POS ".data)
+        write(f, "POS ".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(bp.pos)))
+        write(f, bp.pos)
+        write(f, Int32(sizeof(bp.pos)))
+    end
+end
 
 
 type BlockVel <: Block
@@ -31,6 +42,19 @@ function ZeroBlockVel(n)
         zeros(Float32, (3, n))
     )
 end
+
+function AppendBlockVel(filename, bv::BlockVel)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "VEL ".data)
+        write(f, "VEL ".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(bv.vel)))
+        write(f, bv.vel)
+        write(f, Int32(sizeof(bv.vel)))
+    end
+end
+
 
 function ReadBlockVel(filename)
     open(filename, "r") do f
@@ -68,6 +92,17 @@ function ReadBlockID(filename)
     end
 end
 
+function AppendBlockID(filename, bid::BlockID)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "ID  ".data)
+        write(f, "ID  ".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(bid.id)))
+        write(f, bid.id)
+        write(f, Int32(sizeof(bid.id)))
+    end
+end
 
 
 
@@ -93,6 +128,17 @@ function ReadBlockMass(filename)
     end
 end
 
+function AppendBlockMass(filename, bm::BlockMass)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "MASS".data)
+        write(f, "MASS".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(bm.mass)))
+        write(f, bm.mass)
+        write(f, Int32(sizeof(bm.mass)))
+    end
+end
 
 
 
@@ -119,6 +165,17 @@ function ReadBlockU(filename)
     end
 end
 
+function AppendBlockU(filename, bu::BlockU)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "U   ".data)
+        write(f, "U   ".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(bu.u)))
+        write(f, bu.u)
+        write(f, Int32(sizeof(bu.u)))
+    end
+end
 
 
 
@@ -144,6 +201,17 @@ function ReadBlockRho(filename)
     end
 end
 
+function AppendBlockRho(filename, br::BlockRho)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "RHO ".data)
+        write(f, "RHO ".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(br.rho)))
+        write(f, br.rho)
+        write(f, Int32(sizeof(br.rho)))
+    end
+end
 
 
 
@@ -171,6 +239,19 @@ function ReadBlockHSML(filename)
     end
 end
 
+function AppendBlockHSML(filename, bh::BlockHSML)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "HSML".data)
+        write(f, "HSML".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(bh.hsml)))
+        write(f, bh.hsml)
+        write(f, Int32(sizeof(bh.hsml)))
+    end
+end
+
+
 
 type BlockPOT <: Block
     pot::Array{Float32, 1}
@@ -194,6 +275,17 @@ function ReadBlockPOT(filename)
     end
 end
 
+function AppendBlockPot(filename, bp::BlockPot)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "POT ".data)
+        write(f, "POT ".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(bp.pot)))
+        write(f, bp.pot)
+        write(f, Int32(sizeof(bp.pot)))
+    end
+end
 
 
 
@@ -218,5 +310,17 @@ function ReadBlockAccel(filename)
         read!(f, ba.accel)
         @assert read(f, Int32) == sz
         return ba
+    end
+end
+
+function AppendBlockAccel(filename, ba::BlockAccel)
+    open(filename, "a") do f
+        write(f, Int32(8))
+        write(f, "ACCE".data)
+        write(f, "ACCE".data)
+        write(f, Int32(8))
+        write(f, Int32(sizeof(ba.accel)))
+        write(f, ba.accel)
+        write(f, Int32(sizeof(ba.accel)))
     end
 end

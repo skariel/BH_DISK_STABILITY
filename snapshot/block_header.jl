@@ -79,3 +79,31 @@ function ReadBlockHeader(filename)
         return bh
     end
 end
+
+function WriteBlockHeader(filename, bh::BlockHeader)
+    open(filename, "w") do f
+        write(f, Int32(8))
+        write(f, "HEAD".data)
+        write(f, "HEAD".data)
+        write(f, Int32(8))
+        write(f, Int32(256))        
+        write(f, bh.Npart)
+        write(f, bh.Massarr)     
+        write(f, bh.Time)
+        write(f, bh.Redshift)
+        write(f, bh.FlagSfr? Int32(1): Int32(0))
+        write(f, bh.FlagFeedback? Int32(1): Int32(0))
+        write(f, bh.Nall)
+        write(f, bh.FlagCooling? Int32(1): Int32(0))
+        write(f, bh.NumFiles)
+        write(f, bh.BoxSize)
+        write(f, bh.Omega0::Float64)
+        write(f, bh.HubbleParam::Float64)
+        write(f, bh.FlagAge? Int32(1): Int32(0))
+        write(f, bh.FlagMetals? Int32(1): Int32(0))
+        write(f, bh.NallHW)
+        write(f, bh.flag_entr_ics? Int32(1): Int32(0))
+        write(f, zeros(UInt8, 4+8+4+4+256 - position(f)))
+        write(f, Int32(256))
+    end
+end
