@@ -15,6 +15,7 @@ type BlockHeader <: Block
     FlagMetals::Bool
     NallHW::Array{UInt32, 1}
     flag_entr_ics::Bool
+    r::Array{UnitRange{Int32},1}
 end
 
 function ZeroBlockHeader()
@@ -35,6 +36,7 @@ function ZeroBlockHeader()
         false,                 # FlagMetals::Int32
         zeros(UInt32, 6),      # NallHW::Array{UInt32, 6}
         false,                 # flag_entr_ics::Int32
+        [0:0, 0:0, 0:0, 0:0, 0:0, 0:0]
     )
 end
 
@@ -63,7 +65,15 @@ function ReadBlockHeader(filename)
                 read(f, Int32)!=0,   # FlagMetals
                 read(f, UInt32, 6),  # NallHW
                 read(f, Int32)!=0,   # flag_entr_ics
+                [0:0, 0:0, 0:0, 0:0, 0:0, 0:0],
             )    
+        cs = cumsum(bh.Nall)
+        bh.r[1] = 1:cs[1]
+        bh.r[2] = cs[1]:cs[2]
+        bh.r[3] = cs[2]:cs[3]
+        bh.r[4] = cs[3]:cs[4]
+        bh.r[5] = cs[4]:cs[5]
+        bh.r[6] = cs[5]:cs[6]
         seek(f,4+8+4+4+256)
         @assert read(f, Int32) == 256
         return bh
